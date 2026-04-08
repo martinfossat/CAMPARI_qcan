@@ -1,0 +1,5 @@
+Somehow there is a problem with the q-can version I have.
+Either the problem is just due to having previous version of q-can, which I doubt, or, it is due to having a mistkae all along, woth litle consequences
+What I need to do it to check the energy with the V2.0 in anaylsis mode,
+for each of the qcan residues
+Then I

@@ -1,0 +1,53 @@
+First colum : varibale names in the program, second, id f applicable, nname in the parameter file , then definition
+nequil      FMCSC_EQUIL     number of equilibration steps
+nsim        FMCSC_NRSTEPS   number of simulation
+re_nbmode   FMCSC_RENBMODE  Defines the mode of replica exchange attempts : 1 is any replica, 2 is only nearest neighbors (in the energy plane) 
+
+
+Other variable specifi to the code (not explicitely setup in the parameters file)
+
+at(rs)  A type defined in mod_polypep.f90, contining all the information on residue rs, that is :
+    bb, sc ,pol, : pointer arrays giving the postition of the groups in the atomic arrays 
+    nbb,nsc,npol ; The number of backbone, side chain and polar atoms
+    ndpgrps : number of charges in a residue (will be treated as dipole if net charge is null)
+    nfodgrps : number of slvation groups in a residue 
+    na : Undefined
+    dpgrp : array containing a number of parameters relative to the charged groups:  
+        nats  : number of atome in the charge group
+        nc : net cherge of the chrage group
+        gnm : sum of absolute chrage by chrge group
+        tc : net charge per residue (this one is a floating point, as opposed to nc)  
+        ats : pointer into the atomic array for each charge group
+    fosgrp : Array containing a number of paramteters concernig the FOS of groups
+        nats : Number of atome per solvation groups 
+        val : FOS at ref T. , enthalpy and heat capacity of solvation
+        wts : weigth factor per atom for each solvation groups
+        ats : Pointer into the atomic array
+
+rvec        Energy vector for replica exchange, that is the change in energy of a replica if it was switched to an other replica with new conditions
+mpi_evec    Same as rvec (at least when using MPI for RE)
+par_pka     Condition of the changing parameter for this perticular replica. It is either read from the paramater file or in the case of RE, read from the remc.in in parsefile, 1 is the steric repulsion, 2 is the polar interaction term
+rsmol       is allocate using the module "mod_molecule"
+
+
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,39 @@
+# Makefile.local (distributed by CVS as Makefile.local-dist)
+# If Makefile.local does not exist, do,
+#  cp Makefile.local-dist Makefile.local
+# Only changes which should be propagated back into CVS should be made in
+# Makefile.local-dist.
+# Please make any locale-specific modifications here.
+CAMPARI_HOME=/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.5
+#/project/fava/scratch/HS-PKA-inprogress2
+
+SRC_DIR=${CAMPARI_HOME}/source
+NETCDFC_DIR=/software/netcdf-c
+NETCDFF_DIR=/software/netcdf-fortran
+FFTW_DIR=/software/fftw3
+XDR_DIR=/software/xdr
+HDF5_DIR=/software/hdf5
+
+ARCH=x86_64
+BIN_DIR=${CAMPARI_HOME}/bin
+LIB_DIR=${CAMPARI_HOME}/lib
+FF=ifx
+
+# For optimized run, comment -traceback and everything after
+FFLAGS=-DDISABLE_FLOAT -DLINK_XDR -DLINK_FFTW -DLINK_NETCDF -I${NETCDFF_DIR}/include -I${NETCDFC_DIR}/include -I${LIB_DIR}/${ARCH} -xHOST # -traceback -check all -O0 -fno-inline -g -fp-model precise -implicitnone -warn interfaces  -gen-interface -debug extended -assume ieee_fpe_flags -fpe1 -debug all -ftrapuv -assume ieee_fpe_flags -fpe0 
+
+EXTRA_LIBS=${XDR_DIR}/libxdrf.a ${FFTW_DIR}/lib/libfftw3.a ${NETCDFF_DIR}/lib/libnetcdff.a ${NETCDFC_DIR}/lib/libnetcdf.a -L${HDF5_DIR}/lib -lhdf5_hl -lhdf5 -lsvml -ltirpc -lcurl -lmpi -lxml2
+
+#ony keep the mpif90 flag
+MPIFF=mpiifx #-traceback  -check uninit  -check all -gen-interface  -assume ieee_fpe_flags -debug all #-debug extended #-assume ieee_fpe_flags # -check uninit  -check all#-fpe0 #-fpe1 -check uninit -g -debug all -ftrapuv -fpe1 -assume ieee_fpe_flags -fpe0 -debug extended -check all  # -check bounds  -check all 
+
+# -fpp
+MPIFFLAGS=-g -debug all -fpp -DDISABLE_FLOAT -DLINK_XDR -DLINK_FFTW -DLINK_NETCDF -I${NETCDFF_DIR}/include -I${NETCDFC_DIR}/include -I${LIB_DIR}/${ARCH}
+MPILFLAGS=-O3
+# -static  -i-static
+####MPIEXTRA_LIBS=${XDR_DIR}/libxdrf.a ${FFTW_DIR}/lib/libfftw3.a ${NETCDFF_DIR}/lib/libnetcdff.a ${NETCDFC_DIR}/lib/libnetcdf.a -lsvml -ltirpc
+MPIEXTRA_LIBS=${EXTRA_LIBS}
+#MPIEXTRA_LIBS=-lxtcf ${FFTW_DIR}/lib/libfftw3.a ${NETCDF_DIR}/lib/libnetcdff.a ${NETCDF_DIR}/lib/libnetcdf.a -lsvml
+# COMPDEFAULTS=${INTELDEBUG}
+INTELDEFAULTS=-O3 -r8 -qoverride-limits -stand f08 -fpp
+COMPDEFAULTS=${INTELDEFAULTS}
