@@ -2816,7 +2816,7 @@ end subroutine
     implicit none 
     integer i,j, iqg, icat, k
     character(len=2000000) WWW
-    character(len=100) WW_tmp
+    character(len=1000) WW_tmp
     character(len=10) my_format
     character(len=1) tab
     integer rs, imol, ifos, iat 
@@ -2866,24 +2866,7 @@ end subroutine
             WWW=trim(WWW)//trim(WW_tmp)
         end do   
     end if 
-!    tab = char(9)
-!    WW_tmp=''
-!    write(WW_tmp,*) "atom_groups",char(10)
-!    WWW=trim(WWW)//trim(WW_tmp)
-!      do rs=1,nseq
-!        do i=1,at(rs)%ndpgrps
-!          do k=1,at(rs)%dpgrp(i)%nats
-!            
-!            write(WW_tmp,*) i,tab
-!            WWW=trim(WWW)//trim(WW_tmp)
-!            WW_tmp=''
-!            write(WW_tmp,*) "res",rs,"dp",i,"at",at(rs)%dpgrp(i)%ats(k),char(10)
-!            WWW=trim(WWW)//trim(WW_tmp)
-!        end do    
-!    end do 
-!      end do 
-!    
-    
+
       WW_tmp=''  
       write(WW_tmp,*)"LJ limits per biotype",char(10)
       WWW=trim(WWW)//trim(WW_tmp)
@@ -2908,28 +2891,6 @@ end subroutine
             WWW=trim(WWW)//trim(WW_tmp)
         end do 
     end do
-    
-
-!    tab = char(9)
-!    WW_tmp=''
-!    write(WW_tmp,*) "at(rs)%dpgrp(i)%tc_limits",char(10)
-!    WWW=trim(WWW)//trim(WW_tmp)
-!
-!    do rs=1,nseq
-!        do i=1,at(rs)%ndpgrps
-!            write(WW_tmp,*) rs,i,tab
-!            WWW=trim(WWW)//trim(WW_tmp)
-!            WW_tmp=''
-!            write(WW_tmp,*) at(rs)%dpgrp(i)%tc_limits(1),tab,at(rs)%dpgrp(i)%tc_limits(2)&
-!            &,tab,at(rs)%dpgrp(i)%tc_limits(3),char(10)
-!            WWW=trim(WWW)//trim(WW_tmp)
-!            
-!
-!        end do 
-!    end do
-    
-    
-    
 
     WW_tmp=''
     write(WW_tmp,*) , char(10)

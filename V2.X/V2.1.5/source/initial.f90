@@ -48,7 +48,7 @@ subroutine initialize_charge_state_cste_net_Q() ! The advantage of the constant 
     use aminos ! Martin : debug only 
     use zmatrix
     use accept 
-    
+    use iounit
     
     implicit none
     integer pos_ion(nseq),pi_c
@@ -78,7 +78,7 @@ subroutine initialize_charge_state_cste_net_Q() ! The advantage of the constant 
     ! This should be done before anyway
     ! Note that in htis routine, I start from the charged states, unlike in the constnat FOS one
     
-    print *,"Executing HSQ in the constant charge mode"
+    write(ilog,*) "Executing HSQ in the constant charge mode"
     
     pos_ion(:)=0
     neg_ion(:)=0
@@ -170,8 +170,8 @@ subroutine initialize_charge_state_cste_net_Q() ! The advantage of the constant 
     ! 
     
     if ((salt_p-salt_n).ne.(-tot_QX)) then 
-        print *,salt_p,salt_n,tot_QX
-        print *,"The system is not net neutral, check your sequence. You have an ion net charge of ",salt_p-salt_n,&
+        write(ilog,*) salt_p,salt_n,tot_QX
+        write(ilog,*) "The system is not net neutral, check your sequence. You have an ion net charge of ",salt_p-salt_n,&
         &" a protein net charge target of ",(tot_QX)," with ",res_p,"non ionazible positive residues, and "&
         &,res_n,"non ionazible negative residues "
         call fexit()
@@ -196,7 +196,7 @@ subroutine initialize_charge_state_cste_net_Q() ! The advantage of the constant 
     ! Martin : Truned that off to avoid preferential protonation that is due to the more stable ion.
     ! Does not matter given that the walk is in a net charge dimension.
     if ((nr_c.eq.0).and.(pr_c.eq.0)) then 
-        print *,"No point in using HSQ with no titrable residues, please turn off"
+        write(ilog,*) "No point in using HSQ with no titrable residues, please turn off"
         call fexit()
     end if 
     if (nr_c.ne.0.0) then 
@@ -305,19 +305,15 @@ subroutine initialize_charge_state_cste_net_Q() ! The advantage of the constant 
                 exit
             end if 
         end do 
-    end if 
-!        print *,"bababab"
+    end if
     do i=1,nseq
-!        print *,rs
         if (seq_q_state(i).eq.1) then
             par_hsq(i,:)=0
         else if ((seq_q_state(i).eq.2).or.(seq_q_state(i).eq.3)) then 
             par_hsq(i,:)=1
         else if ((seq_q_state(i).eq.0).or.(seq_q_state(i).eq.-1)) then 
             par_hsq(i,:)=0
-        end if 
-!        print *,par_hsq(i,:)
-!        print *,seq_q_state(i)
+        end if
     end do 
     
     do i=1,nhis 
@@ -326,9 +322,9 @@ subroutine initialize_charge_state_cste_net_Q() ! The advantage of the constant 
         else 
             his_state(i,2)=0
         end if 
-    end do 
-    
-    print *,"Starting with charge state :",seq_q_state(:)
+    end do
+    write(ilog,*) "Starting with charge state :"
+    write(ilog,'(*(I0))') seq_q_state(1:n_res)
 
 end subroutine
 

@@ -1094,7 +1094,7 @@ subroutine makeio(mode)
            close(unit=q_state_f,status='delete')
         end if
         
-        if (qs_freq .le. nsim) then
+        if (qs_freq.le.nsim) then
            q_state_f = freeunit()
            open (unit=q_state_f,file=keep_track_q,status='new')
            state_q_open = .true.
