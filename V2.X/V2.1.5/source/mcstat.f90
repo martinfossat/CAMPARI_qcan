@@ -107,25 +107,21 @@ subroutine mcstat(istep,ndump)
   aone = 1
 ! don't get confused with istep vs. nstep, they should agree at all times,
 ! the only difference being that nstep is global, while istep is passed on
-!
 ! use output/analysis frequencies to determine what needs to be done
-!
 ! energy output: equilibration-independent
   
-  modstep = mod(nstep,xyzout)  
+  modstep = mod(nstep,xyzout)
+  ! Ideally I would move this to a separate subroutine
   if ((nstep.gt.nequil).AND.(modstep.eq.0).AND.((do_hsq.eqv..true.))) then
   !Martin : added : every time you print the structure, print the charge state
-  
         WWW=''
         WW_tmp=''    
-        write(WW_tmp,*) nstep
+        write(WW_tmp,*) nstep,tab
         WWW=trim(WWW)//trim(WW_tmp)
-
 
         WW_tmp=''
-        write(WW_tmp,*) tab,seq_q_state(1:n_res) ! Changed to limit the size of the output filewill bot ouput the salt anymore
+        write(WW_tmp,'(*(I0))') seq_q_state(1:n_res) ! Changed to limit the size of the output filewill not ouput the salt anymore
         WWW=trim(WWW)//trim(WW_tmp)
-
 
         write(my_format,'(A2,I0,A1)')'(A',len(trim(WWW)),')'
         if (len(trim(WWW)).ge.200000) then 
