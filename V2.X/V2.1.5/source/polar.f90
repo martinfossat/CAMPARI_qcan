@@ -1740,7 +1740,7 @@ subroutine get_dipgrps()
             allocate(good_types4(8+7+5))
 
             ! Martin good_types has all the possible biotypes that can be use in part of the last dipolar group of his (to make
-            ! coding simpler)            
+            ! coding simpler)
             good_types1=(/159,161,176,178,192,194,1127,1129,122,120,1161,1163,1270,1272/)! CoHs
             good_types2=(/157,158,160,162,174,175,177,179,190,191,193,195,118,119,121,123,1125,1126,1128,1130,&
                          &1159,1160,1162,1164,1268,1269,1271,1273/)!SXP! Rest of backbone
@@ -1764,8 +1764,8 @@ subroutine get_dipgrps()
             n3=0
             n4=0
             do i=1,at(rs)%npol
-            ! Martin : Goes through all of the charge of the residue, and for each dipolar group, 
-            ! find out if this atom is the desired one, in chich case save the partial charge 
+            ! Martin : Goes through all of the charge of the residue, and for each dipolar group,
+            ! find out if this atom is the desired one, in chich case save the partial charge
                 do j=1,size(good_types1)
                     if (good_types1(j).eq.b_type(at(rs)%pol(i))) then 
                         n1=n1+1
@@ -1786,14 +1786,14 @@ subroutine get_dipgrps()
                         at(rs)%dpgrp(3)%ats(n3)=at(rs)%pol(i)
                         exit
                     end if 
-                end do 
+                end do
                 do j=1,size(good_types4)
-                    if (good_types4(j).eq.b_type(at(rs)%pol(i))) then 
-                        n4=n4+1 
+                    if (good_types4(j).eq.b_type(at(rs)%pol(i))) then
+                        n4=n4+1
                         at(rs)%dpgrp(4)%ats(n4)=at(rs)%pol(i)
                         exit
-                    end if 
-                end do 
+                    end if
+                end do
             end do     
 
             deallocate(good_types1)

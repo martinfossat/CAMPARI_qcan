@@ -1,0 +1,73 @@
+############ Options
+# Mode can be opti or debug
+#mode=debug
+mode=opti
+
+# Opti flags common
+# These are flags shared by the MPI and non MPI version
+opti_fp-model="precise" #"fast=2"
+opti_O="-O3"
+
+
+############ Intel flag correction 
+# Use Intel's wrappers instead of the system defaults
+AR = xiar
+LD = xild
+
+############ Source code location
+CAMPARI_HOME=/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8
+ARCH=x86_64
+BIN_DIR=${CAMPARI_HOME}/bin
+LIB_DIR=${CAMPARI_HOME}/lib
+############ Library locations
+SRC_DIR=${CAMPARI_HOME}/source
+NETCDFC_DIR=/software/netcdf-c
+NETCDFF_DIR=/software/netcdf-fortran
+FFTW_DIR=/software/fftw3
+XDR_DIR=/software/xdr
+HDF5_DIR=/software/hdf5
+
+############ Defaults, used in all compilations
+COMMON_DEFINES=-DDISABLE_FLOAT -DLINK_XDR -DLINK_FFTW -DLINK_NETCDF
+COMMON_INCLUDES=-I${NETCDFF_DIR}/include -I${NETCDFC_DIR}/include -I${LIB_DIR}/${ARCH}
+INTELDEFAULTS=-r8 -qoverride-limits -stand f08 -fpp
+COMPDEFAULTS=${INTELDEFAULTS}
+########### Non MPI
+# Compiler
+FF=ifx
+# Base required flags
+FFLAGS_base=${COMMON_DEFINES} ${COMMON_INCLUDES}
+# Optimizing flags
+FFLAGS_opti=${FFLAGS_base} ${opti_O} -xHost -heap-arrays 64 -qopt-zmm-usage=high -align array64byte -fp-model ${opti_fp-model}
+# Debugging flags
+FFLAGS_debug=${FFLAGS_base} -traceback -check all -check noarg_temp_created -O0 -fno-inline -g -fp-model precise -implicitnone -warn interfaces  -gen-interface -debug extended -assume ieee_fpe_flags -debug all -ftrapuv -fpe0 -heap-arrays 64
+ifeq ($(mode),debug)
+LFLAGS=${FFLAGS_debug}
+FFLAGS=${FFLAGS_debug}
+else ifeq ($(mode),opti)
+LFLAGS=${FFLAGS_opti}
+FFLAGS=${FFLAGS_opti}
+endif
+
+# Extra libraries
+EXTRA_LIBS=${XDR_DIR}/libxdrf.a ${FFTW_DIR}/lib/libfftw3.a ${NETCDFF_DIR}/lib/libnetcdff.a ${NETCDFC_DIR}/lib/libnetcdf.a -L${HDF5_DIR}/lib -lhdf5_hl -lhdf5 -lsvml -ltirpc -lcurl -lmpi -lxml2
+
+########### MPI
+MPIFF= mpiifx
+# Base required flags
+MPIFFLAGS_base=${COMMON_DEFINES} ${COMMON_INCLUDES}
+# Optimizing flags
+MPIFFLAGS_opti=${MPIFFLAGS_base} ${opti_O} -xHost -heap-arrays 64 -qopt-zmm-usage=high -align array64byte -fp-model ${opti_fp-model}
+# Debugging flags
+MPIFFLAGS_debug=${MPIFFLAGS_base} -traceback -gen-interface -assume ieee_fpe_flags -debug extended -g -debug all -no-pie -rdynamic -ftrapuv -check all -check noarg_temp_created -fpe0 -O0 -g -heap-arrays 64
+
+# All flags, replace to switch between opti and debug
+ifeq ($(mode),debug)
+MPILFLAGS=${MPIFFLAGS_debug}
+MPIFFLAGS=${MPIFFLAGS_debug}
+else ifeq ($(mode),opti)
+MPILFLAGS=${MPIFFLAGS_opti}
+MPIFFLAGS=${MPIFFLAGS_opti}
+endif
+# Extra libraries
+MPIEXTRA_LIBS=${EXTRA_LIBS}

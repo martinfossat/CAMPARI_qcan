@@ -1,0 +1,36 @@
+I do not understand the use of three independant do_pka variables. Furtehrmore, this variables are set to true at several points in the code (while reading the key file as well as during the reading of the remc file)
+
+
+The reading of the REMC file is made in the subprogram parsefiles.f90. in a routine called read_refile() It seem that in that case, the routine is called at each iteration though the number of parralel simulation, where my rank is the MPI rank level
+
+The consistency of the number of varying parameters is checked, and the parameters stored, after which the prgram loook at the consistency of some values, and refer tohe varying parameter to the proper variable.
+
+In the case of the pKa calculatons, the numbers 35 and 36 used as identifier for the parameters to change the par_PKA(1) and par_PKA(2) values to be changd to the level of scaling of those interactions
+
+The scaling of the energy is made in the subroutine scale_stuff_pka in the file energy.f90, but is called in the energy_wrap.f90 
+
+It seems that the scalling is made in terms of the appearance of a sphere with increasing radius, and not simply rescalling of the nergy term linked to the atoms considered, which in my opinion should be more reliable
+Although, simple recalling of the energy term has the disadvantage that the sphere overlap for atoms, since it corresponds to a near infinite energy, is going to dominate as long as the scaling is not zero. Therefore,  aprocedure with increasing volume may be more appropriate, but to be more linear it probably needs the radius proportionally to R^2, so the volume scales in a r factor of lambda
+
+Irt seems that the use of ALLOCTABLE is for variables that may not be used.
+
+
+
+################Progeam branching for energy calculation :
+The program starts by the execution of chainsaw.f90, the master source file. 
+It then calls a bunch of routines that setupt different environemtn.
+Note that f the program enables MPI, the setup maneuvre is slightly different, going through MPI_StartMC (in fmsmcmpi.f90) for the reading tof the key file steps other than that it seems to follow the same logic 
+Next it calls the getkey() which read but does not parse the source code file
+Then it calls parsekey, which has three levels. These levels refer to an order in which the parameters cna be read : If a parameter uses a binary for on off (for example RE), the program must know if the option is on or off before readin the rest of the relevant parameters, which explain the 3 level organization
+At then end of this the program knows all the parameters.
+
+the main loop regarding the execution fo the simulation is in chainsaw.f90 , around line 670, staring with "do istep = firststep,nsim"
+
+
+############## Concerns and remarks :
+First, one concern is the fact that it would be much easier to just change the part of the residue that is appearing/ disapearing, rather that the entrire residues even though both end point have most atoms in common.
+
+
+
+
+

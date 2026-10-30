@@ -1,0 +1,4 @@
+ifort  -DDISABLE_FLOAT -DLINK_XDR -DLINK_FFTW -DLINK_NETCDF -I/packages/netcdf/include -I../lib/x86_64 -axSSE3 -xSSE3 -traceback -check all -O0 -fno-inline -no-ip -g -traceback -fp-model precise -implicitnone -warn interfaces  -c -O3 -r8 -override_limits -stand f03 -fpp -I../lib/x86_64 ../source/mod_accept.f90 -o ../lib/x86_64/accept.o
+ifort: command line warning #10212: -fp-model precise evaluates in source precision with Fortran.
+ifort: warning #10182: disabling optimization; runtime debug checks enabled
+/bin/mv ../source/accept.mod ../lib/x86_64/accept.mod
