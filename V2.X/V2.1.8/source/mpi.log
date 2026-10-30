@@ -1,0 +1,131 @@
+mpiifx -DDISABLE_FLOAT -DLINK_XDR -DLINK_FFTW -DLINK_NETCDF -I/software/netcdf-fortran/include -I/software/netcdf-c/include -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64 "-O3" -xHost -heap-arrays 64 -qopt-zmm-usage=high -align array64byte -fp-model "precise"  -c -r8 -qoverride-limits -stand f08 -fpp -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi -DENABLE_MPI /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/source/mod_martin_own.f90 -o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/martin_own.o
+/bin/mv /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/source/martin_own.mod /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/martin_own.mod
+mpiifx -DDISABLE_FLOAT -DLINK_XDR -DLINK_FFTW -DLINK_NETCDF -I/software/netcdf-fortran/include -I/software/netcdf-c/include -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64 "-O3" -xHost -heap-arrays 64 -qopt-zmm-usage=high -align array64byte -fp-model "precise"  -c -r8 -qoverride-limits -stand f08 -fpp -DENABLE_MPI -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/source/chainsaw.f90 -o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/chainsaw.o
+mpiifx -DDISABLE_FLOAT -DLINK_XDR -DLINK_FFTW -DLINK_NETCDF -I/software/netcdf-fortran/include -I/software/netcdf-c/include -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64 "-O3" -xHost -heap-arrays 64 -qopt-zmm-usage=high -align array64byte -fp-model "precise"  -c -r8 -qoverride-limits -stand f08 -fpp -DENABLE_MPI -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/source/energy.f90 -o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/energy.o
+mpiifx -DDISABLE_FLOAT -DLINK_XDR -DLINK_FFTW -DLINK_NETCDF -I/software/netcdf-fortran/include -I/software/netcdf-c/include -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64 "-O3" -xHost -heap-arrays 64 -qopt-zmm-usage=high -align array64byte -fp-model "precise"  -c -r8 -qoverride-limits -stand f08 -fpp -DENABLE_MPI -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/source/energy_wrap.f90 -o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/energy_wrap.o
+mpiifx -DDISABLE_FLOAT -DLINK_XDR -DLINK_FFTW -DLINK_NETCDF -I/software/netcdf-fortran/include -I/software/netcdf-c/include -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64 "-O3" -xHost -heap-arrays 64 -qopt-zmm-usage=high -align array64byte -fp-model "precise"  -c -r8 -qoverride-limits -stand f08 -fpp -DENABLE_MPI -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/source/initial.f90 -o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/initial.o
+mpiifx -DDISABLE_FLOAT -DLINK_XDR -DLINK_FFTW -DLINK_NETCDF -I/software/netcdf-fortran/include -I/software/netcdf-c/include -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64 "-O3" -xHost -heap-arrays 64 -qopt-zmm-usage=high -align array64byte -fp-model "precise"  -c -r8 -qoverride-limits -stand f08 -fpp -DENABLE_MPI -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/source/makepept.f90 -o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/makepept.o
+mpiifx -DDISABLE_FLOAT -DLINK_XDR -DLINK_FFTW -DLINK_NETCDF -I/software/netcdf-fortran/include -I/software/netcdf-c/include -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64 "-O3" -xHost -heap-arrays 64 -qopt-zmm-usage=high -align array64byte -fp-model "precise"  -c -r8 -qoverride-limits -stand f08 -fpp -DENABLE_MPI -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/source/mcmove.f90 -o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/mcmove.o
+mpiifx -DDISABLE_FLOAT -DLINK_XDR -DLINK_FFTW -DLINK_NETCDF -I/software/netcdf-fortran/include -I/software/netcdf-c/include -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64 "-O3" -xHost -heap-arrays 64 -qopt-zmm-usage=high -align array64byte -fp-model "precise"  -c -r8 -qoverride-limits -stand f08 -fpp -DENABLE_MPI -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/source/mcstat.f90 -o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/mcstat.o
+mpiifx -DDISABLE_FLOAT -DLINK_XDR -DLINK_FFTW -DLINK_NETCDF -I/software/netcdf-fortran/include -I/software/netcdf-c/include -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64 "-O3" -xHost -heap-arrays 64 -qopt-zmm-usage=high -align array64byte -fp-model "precise"  -c -r8 -qoverride-limits -stand f08 -fpp -DENABLE_MPI -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/source/parsekey.f90 -o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/parsekey.o
+mpiifx -DDISABLE_FLOAT -DLINK_XDR -DLINK_FFTW -DLINK_NETCDF -I/software/netcdf-fortran/include -I/software/netcdf-c/include -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64 "-O3" -xHost -heap-arrays 64 -qopt-zmm-usage=high -align array64byte -fp-model "precise"  -c -r8 -qoverride-limits -stand f08 -fpp -DENABLE_MPI -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/source/readprm.f90 -o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/readprm.o
+mpiifx -DDISABLE_FLOAT -DLINK_XDR -DLINK_FFTW -DLINK_NETCDF -I/software/netcdf-fortran/include -I/software/netcdf-c/include -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64 "-O3" -xHost -heap-arrays 64 -qopt-zmm-usage=high -align array64byte -fp-model "precise"  -c -r8 -qoverride-limits -stand f08 -fpp -DENABLE_MPI -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/source/topology.f90 -o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/topology.o
+ar -rclvs /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/lcampari_mpi.a /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/accept.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/aminos.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/atoms.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/clusters.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/commline.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/contacts.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/cutoffs.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/diffrac.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/dipolavg.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/distrest.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/dssps.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/ems.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/energies.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/ewalds.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/forces.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/fos.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/fyoc.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/grandensembles.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/grids.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/inter.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/interfaces.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/ionize.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/iounit.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/keys.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/martin_own.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/math.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/mcgrid.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/mcsums.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/mini.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/molecule.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/movesets.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/mpistuff.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/paircorr.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/params.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/pdb.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/polyavg.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/polypep.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/sequen.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/shakeetal.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/system.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/tabpot.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/threads.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/torsn.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/ujglobals.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/units.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/wl.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/zmatrix.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/accsim.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/allocate.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/assignprm.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/backup.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/boundary.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/cartld.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/cartmd.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/chainsaw.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/clustering.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/clustering_utils.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/conrot.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/constraint_solvers.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/dssp.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/emicroscopy.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/energy.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/energy_wrap.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/ensemble.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/ewald.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/flow.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/fmcscgrid.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/fmsmcmpi.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/force.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/force_wrap.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/fyczmat.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/getkey.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/graph_algorithms.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/holes.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/initial.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/inner_loops.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/inner_loops_en.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/inner_loops_imp.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/intmd.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/intld.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/makeio.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/makepept.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/math_utils.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/mcmove.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/mcstat.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/minimize.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/nucconrot.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/parsefiles.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/parsekey.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/particlefluctuation.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/polar.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/polymer.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/proteus.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/prtpdb.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/readfyc.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/readgrid.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/readpdb.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/readprm.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/restart.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/rigidmoves.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/sanity_checks.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/sav.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/sav_auxil.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/setconf.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/sidechain.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/string_utils.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/structure.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/summary.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/titrate.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/topology.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/torconrot.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/torsion.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/ujconrot.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/ujsugar_pucker.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/unbond.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/utilities.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/wanglandau.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/accept.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/aminos.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/atoms.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/clusters.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/commline.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/contacts.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/cutoffs.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/diffrac.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/dipolavg.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/distrest.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/dssps.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/ems.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/energies.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/ewalds.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/forces.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/fos.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/fyoc.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/grandensembles.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/grids.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/inter.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/interfaces.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/ionize.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/iounit.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/keys.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/martin_own.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/math.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/mcgrid.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/mcsums.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/mini.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/molecule.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/movesets.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/mpistuff.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/paircorr.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/params.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/pdb.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/polyavg.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/polypep.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/sequen.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/shakeetal.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/system.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/tabpot.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/threads.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/torsn.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/ujglobals.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/units.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/wl.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/zmatrix.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/accsim.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/allocate.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/assignprm.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/backup.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/boundary.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/cartld.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/cartmd.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/chainsaw.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/clustering.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/clustering_utils.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/conrot.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/constraint_solvers.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/dssp.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/emicroscopy.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/energy.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/energy_wrap.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/ensemble.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/ewald.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/flow.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/fmcscgrid.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/fmsmcmpi.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/force.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/force_wrap.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/fyczmat.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/getkey.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/graph_algorithms.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/holes.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/initial.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/inner_loops.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/inner_loops_en.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/inner_loops_imp.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/intmd.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/intld.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/makeio.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/makepept.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/math_utils.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/mcmove.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/mcstat.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/minimize.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/nucconrot.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/parsefiles.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/parsekey.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/particlefluctuation.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/polar.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/polymer.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/proteus.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/prtpdb.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/readfyc.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/readgrid.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/readpdb.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/readprm.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/restart.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/rigidmoves.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/sanity_checks.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/sav.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/sav_auxil.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/setconf.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/sidechain.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/string_utils.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/structure.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/summary.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/titrate.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/topology.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/torconrot.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/torsion.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/ujconrot.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/ujsugar_pucker.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/unbond.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/utilities.o
+r - /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/wanglandau.o
+mpiifx -DDISABLE_FLOAT -DLINK_XDR -DLINK_FFTW -DLINK_NETCDF -I/software/netcdf-fortran/include -I/software/netcdf-c/include -I/cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64 "-O3" -xHost -heap-arrays 64 -qopt-zmm-usage=high -align array64byte -fp-model "precise"  -DENABLE_MPI -o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/bin/x86_64/campari_mpi /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/chainsaw.o /cn1/scratch/Git/CAMPARI_qcan/V2.X/V2.1.8/lib/x86_64/mpi/lcampari_mpi.a /software/xdr/libxdrf.a /software/fftw3/lib/libfftw3.a /software/netcdf-fortran/lib/libnetcdff.a /software/netcdf-c/lib/libnetcdf.a -L/software/hdf5/lib -lhdf5_hl -lhdf5 -lsvml -ltirpc -lcurl -lmpi -lxml2 
