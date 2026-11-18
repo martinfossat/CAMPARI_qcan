@@ -49,6 +49,8 @@ subroutine initialize_charge_state_cste_net_Q() ! The advantage of the constant 
     use zmatrix
     use accept 
     use iounit
+    use system
+    use martin_own
     
     implicit none
     integer pos_ion(nseq),pi_c
@@ -142,12 +144,14 @@ subroutine initialize_charge_state_cste_net_Q() ! The advantage of the constant 
             hsq_sign(rs)=0
         end if 
     end do
+    n_res=nseq-(salt_n+salt_p)
+    n_titrable=pr_c+nr_c
     ! The total charge of the protein is supposed to be tot_QX (I know the name is misleading)
     if ((salt_p-salt_n).ne.(-tot_QX)) then 
         write(ilog,*) salt_p,salt_n,tot_QX
         write(ilog,*) "The system is not net neutral, check your sequence. You have an ion net charge of ",salt_p-salt_n,&
-        &" a protein net charge target of ",(tot_QX)," with ",res_p,"non ionazible positive residues, and "&
-        &,res_n,"non ionazible negative residues "
+        &" a protein net charge target of ",(tot_QX)," with ",res_p,"non ionizable positive residues, and "&
+        &,res_n,"non ionizable negative residues "
         call fexit()
     end if
     if (read_charge_state.eqv..true.) then
@@ -156,8 +160,6 @@ subroutine initialize_charge_state_cste_net_Q() ! The advantage of the constant 
             hsq_freq=0.0
         end if
     end if
-    n_res=nseq-(salt_n+salt_p)
-    n_titrable=pr_c+nr_c
     ! Martin : Truned that off to avoid preferential protonation that is due to the more stable ion.
     ! Does not matter given that the walk is in a net charge dimension.
     if ((nr_c.eq.0).and.(pr_c.eq.0)) then
@@ -182,7 +184,16 @@ subroutine initialize_charge_state_cste_net_Q() ! The advantage of the constant 
             his_state(rs,2)=0
         end if
     end do
-    if (read_charge_state) then
+    if ((pdb_analyze).and.(do_hsq_CROSS)) then
+        seq_q_state(1:n_res)=q_states(1,:)
+    else if (pdb_analyze) then
+        ! If this is an analysis run, read the charge states from the charge vs step file
+        ! (only for the normal analysis mode)
+        ! First allocate q_vs_T
+        allocate(q_vs_t(nsim,n_res))
+        call read_qinfile()
+        seq_q_state(1:n_res)=q_vs_t(1,:)
+    else if (read_charge_state) then
         i=CEILING(random()*(n_charge_states))
         seq_q_state(1:n_res)=q_states(i,:)
     else if (read_start_state) then
@@ -228,6 +239,16 @@ subroutine initialize_charge_state_cste_net_Q() ! The advantage of the constant 
             par_hsq(rs,:)=0
         end if
     end do
+    ! Just added, was missing I think
+    do i=1,nhis
+        if (seq_q_state(his_state(i,1)).eq.1) then
+            his_state(i,2)=0
+        else if (seq_q_state(his_state(i,1)).eq.2) then
+            his_state(i,2)=0
+        else if (seq_q_state(his_state(i,1)).eq.3) then
+            his_state(i,2)=1
+        end if
+    end do
     if (debug_pka) then
         write(ilog,*) 'Titrable_res_index :'
         write(ilog,*) titrable_res_index(:)
@@ -240,9 +261,6 @@ subroutine initialize_charge_state_cste_net_Q() ! The advantage of the constant 
 !        write(ilog,*) "From keyfile : ",tot_QX
 !        call fexit()
 !    end if
-
-
-
     write(ilog,*) "Starting with charge state :"
     write(ilog,'(*(I0))') seq_q_state(1:n_res)
 end subroutine

@@ -2133,7 +2133,7 @@ subroutine key_energies_l3(wo1,wt11,wt12,wo2,wt21,wt22,wo3,wt31,&
               inquire(file=wo1(wt11:wt12),exist=exists)
               if (exists.EQV..false.) then
                 write(ilog,*) 'Fatal. Cannot open spec.d HSQ_CHARGE file (',&
-         &wo1(wt11:wt12),') for FMCSC_SEQFILE.'
+         &wo1(wt11:wt12),') for FMCSC_HSQ_CHARGE_FILE.'
                  read_charge_state = .false.
                 call fexit()
               else
@@ -6047,6 +6047,7 @@ subroutine key_sequen(wo1,wt11,wt12,wo2,wt21,wt22,wo3,wt31,wt32,&
   use keys
   use pdb
   use system
+  use martin_own
 #ifdef ENABLE_MPI
   use mpistuff
 #endif
@@ -6215,7 +6216,25 @@ subroutine key_sequen(wo1,wt11,wt12,wo2,wt21,wt22,wo3,wt31,wt32,&
       end if
 !
 #endif
+!   input charge file
 !
+
+    if (keyword(1:12) .eq. 'FMCSC_QFILE ') then
+      qinfile = wo1(wt11:wt12)
+    end if
+
+    if (keyword(1:16) .eq. 'FMCSC_HSQ_CROSS ') then
+
+        read(wo1(wt11: wt12), *) dum
+        call dum2int(dum, choice)
+        if (choice.eq.1) then
+            do_hsq_CROSS=.true.
+        else
+            do_hsq_CROSS=.false.
+        end if
+
+    end if
+
 #ifdef LINK_NETCDF
 !
 !   NetCDF input file

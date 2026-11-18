@@ -309,7 +309,7 @@ subroutine summary()
     write(ilog,5) ' Base file           : ',fn(s3:s4)
 #ifdef LINK_XDR
     if (pdb_fileformat.eq.3) then
-      write(ilog, '(A, I0)') ' Precision multiplier: ', xtc_prec
+      write(ilog, '(A, F10.2)') ' Precision multiplier: ', xtc_prec
     end if
 #endif
     if (use_pdb_template.EQV..true.) then

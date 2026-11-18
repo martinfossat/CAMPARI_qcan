@@ -86,8 +86,10 @@ module sequen
   RTYPE mrrd,globrdmthresh
   logical globcyclic,fycinput,pdbinput,seq_report
   logical, ALLOCATABLE:: chgflag(:),notors(:)
+
+
   character(1), ALLOCATABLE:: seqpolty(:)
-  character(MAXSTRLEN) seqfile,fycfile,pdbinfile,xtcinfile,dcdinfile,netcdfinfile
+  character(MAXSTRLEN) seqfile,fycfile,pdbinfile,xtcinfile,dcdinfile,netcdfinfile,qinfile,QSTATE_ID_FILE
 ! #tyler pka: an even worse violation of elegance
   logical do_pka_3
 
@@ -106,7 +108,5 @@ module sequen
   integer, ALLOCATABLE:: temp_save(:),temp_bio_save(:)
   ! Martin : added for HS
   integer TOT_X,MAX_SWITCH
-  
- 
 end module sequen
 !

@@ -70,13 +70,13 @@ subroutine do_HS_walk(istep)
     
     integer, intent(in) :: istep
     logical moveok
-    
+
     mvcnt%nhs=mvcnt%nhs+1
-    
+
     allocate(x_save(n))
     allocate(y_save(n))
     allocate(z_save(n))
-    
+
     allocate(ztor_save(size(ztor)))
     allocate(blen_save(size(blen)))
     allocate(bang_save(size(bang)))
@@ -205,9 +205,9 @@ subroutine do_HSQ_walk(istep) !This subroutine will contain all the steps of the
         write(ilog,*) "Fatal. You have to specify a mode if you are going to use HSQ."
         call fexit()
     end if 
-    if (read_charge_state) then
-        acc%HSQ_state_tries(acc%curr_tries(1),acc%curr_tries(2))=acc%HSQ_state_tries(acc%curr_tries(1),acc%curr_tries(2))+1
-    end if
+!    if (read_charge_state) then
+!        acc%HSQ_state_tries(acc%curr_tries(1),acc%curr_tries(2))=acc%HSQ_state_tries(acc%curr_tries(1),acc%curr_tries(2))+1
+!    end if
 
     if (hsq_steps.ne.0) then
         ! HSQ part
