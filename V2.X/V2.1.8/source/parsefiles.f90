@@ -106,17 +106,14 @@ subroutine read_HS_residues() !Martin added
   end do
 end
 
-
-
-
-
 subroutine read_charge_states() !Martin added
   ! Changed : now the change state file will have no space
   use iounit
   use atoms
   use interfaces
   use energies !Martin added
-  use accept 
+  use accept
+
   
   implicit none
   integer iunit,freeunit
@@ -150,12 +147,13 @@ subroutine read_charge_states() !Martin added
 
     close(unit=iunit)        
     open (unit=iunit,file=charge_state_file,status='old')
-
     allocate(q_states(line,n_res))
     n_charge_states=line
+    print *,'n_charge_states',n_charge_states
+    print *,'n_res',n_res
+
     line=0
-    
-    
+
  do while(.true.)
      line=line+1
     read(iunit,79,iostat=iomess) str2 ! Martin : reads the line 
@@ -183,13 +181,16 @@ subroutine read_charge_states() !Martin added
     
     end do 
   end do
-  allocate(acc%HSQ_state_tries(n_charge_states,n_charge_states))
-  allocate(acc%HSQ_state_acc(n_charge_states,n_charge_states))
-  allocate(acc%curr_tries(2))
-  
-  acc%HSQ_state_tries(:,:)=0
-  acc%HSQ_state_acc(:,:)=0
-  
+  print *,'q_states',q_states(:,:)
+
+
+!  allocate(acc%HSQ_state_tries(n_charge_states,n_charge_states))
+!  allocate(acc%HSQ_state_acc(n_charge_states,n_charge_states))
+!  allocate(acc%curr_tries(2))
+!
+!  acc%HSQ_state_tries(:,:)=0
+!  acc%HSQ_state_acc(:,:)=0
+!
   
 !  do while(.true.)
 !     line=line+1

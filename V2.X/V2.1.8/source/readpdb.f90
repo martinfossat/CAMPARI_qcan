@@ -7231,7 +7231,10 @@ subroutine FMSMC_readxtc(mdl)
   allocate(coords(3*n))
   xtcprec = xtc_prec
   call xdrf3dfcoord(ipdbtraj,coords,natoms,xtcprec,ret)
-  if (ret.ne.1) call fail_readxtc(ret)
+  if (ret.ne.1) then
+    print *,'this is it',ret
+    call fail_readxtc(ret)
+  end if
   if (use_pdb_template.EQV..true.) then
    do i=1,n
       x(i) = 10.0*coords(3*pdbmap(i)-2)

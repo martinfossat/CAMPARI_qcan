@@ -39,6 +39,7 @@ module martin_own
   RTYPE, ALLOCATABLE:: pKa_corr_DF_ref(:)
   RTYPE, ALLOCATABLE:: pKa_corr_DF(:)
   RTYPE, ALLOCATABLE:: pKa_corr_DF_eff(:)
+  integer,  ALLOCATABLE:: q_vs_t(:,:)
   character(3), ALLOCATABLE:: counter_ion_ID(:)
   character(3), ALLOCATABLE:: counter_ion_ref(:)
   RTYPE, ALLOCATABLE:: counter_ion_FOS(:)
@@ -59,7 +60,7 @@ module martin_own
   integer MAX_BIAS_TYPE
   integer ght_dir ! state of the ghost particle
   logical done_dets
-  logical do_sphere_bias ! Added this for the postiion specific spherical bias  
+  logical do_sphere_bias,do_hsq_CROSS ! Added this for the postiion specific spherical bias
   public test_combi ,fos_Tdep_duplicate   
   RTYPE sphere_bias_radius
   RTYPE min_threshold,max_threshold
@@ -85,6 +86,55 @@ module martin_own
     end do
     return
 end function test_combi
+
+subroutine rewind_pdb()
+    use mcsums
+    use sequen
+    implicit none
+    integer ret
+    integer t2,t1
+    character(MAXSTRLEN) fn
+    ! To rewind the trajectory, we will simply close and reopen the file
+    call xdrfclose(ipdbtraj, ret)
+    call xdrfopen(ipdbtraj,trim(xtcinfile),"r",ret)
+end subroutine
+
+subroutine read_qinfile() ! Martin : From gemini, can't be bothered
+    use sequen
+    use iounit
+    implicit none
+
+    integer, parameter :: max_str_len = 10000
+    character(len=max_str_len) :: dummy_col1, col2_str
+
+    integer :: iotmp, ios, i, j, cur_len
+    integer :: max_lines, max_digits
+
+    ! Extract dimensions from the pre-allocated array
+    max_lines = size(q_vs_t, 1)
+    max_digits = size(q_vs_t, 2)
+
+    open(newunit=iotmp, file=qinfile, status='old', action='read', iostat=ios)
+    if (ios /= 0) then
+        write(ilog,*) "Error: Cannot open ",qinfile
+        return
+    end if
+
+    i = 1
+    do
+        ! Read the dummy first column and the string of integers
+        read(iotmp, *, iostat=ios) dummy_col1, col2_str
+        ! Exit if end of file is reached or allocated rows are exceeded
+        if (ios /= 0 .or. i > max_lines) exit
+        cur_len = len_trim(col2_str)
+        if (cur_len > max_digits) cur_len = max_digits ! Prevent bounds overflow
+        do j = 1, cur_len
+            q_vs_t(i, j) = ichar(col2_str(j:j)) - ichar('0')
+        end do
+        i = i + 1
+    end do
+    close(iotmp)
+end subroutine
 
 function fos_Tdep_duplicate(tdvs) result(fos_Tdep)
   use system
@@ -138,7 +188,6 @@ subroutine setup_pKa_corr_values()
     if (do_pka) then
         pKa_corr_DF(:)=-pKa_corr_DF_ref(:)*ref_sign(:)
     else if (do_HSQ) then
-!    else if ((do_HSQ).and.(PDB_analyze.eqv..false.)) then
         pKa_corr_DF(:)=lnten*gasconst*kelvin*pKa_ref(:)-pKa_corr_DF_ref(:)*ref_sign(:)
         ! This is the correction based on the fact that the correction value used contains the influence of the counterion.
         ! This is not needed for TI because the couter ion is also present

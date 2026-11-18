@@ -84,7 +84,8 @@ program chainsaw
 #ifdef ENABLE_MPI
 #include "/opt/intel/oneapi/mpi/2021.13/include/mpif.h"
 #endif
-  integer urr  
+  integer urr
+  integer nq
   integer dt(8)
   character (len=12) rc(3)
   integer rs,aone,imol
@@ -101,16 +102,18 @@ program chainsaw
   integer, allocatable:: temp_var5(:,:),temp_var6(:,:),temp_var7(:),dpgrp_check(:,:,:)
   integer, allocatable:: take(:)
   integer, allocatable:: polin_added1(:,:),polin_added2(:,:),polnb_added1(:,:),polnb_added2(:,:)!Martin added
-  integer limit,nsalt
+  integer limit,nsalt,freeunit
   RTYPE temp_sum,temp_1,temp_2
   
   integer sub,at1,at2,dp1,dp2,ii,kk,rs1,rs2,maxlim
-
+  logical exists,enopen
   character(len=1000) WW,WW2
+  character(len=1000) num_str,enfile
   character(len=200000) WWW
   character(len=1000) WW_tmp
   character(len=10) my_format
-  character(len=1) tab 
+  character(len=1) tab
+
 !
 #ifdef ENABLE_THREADS
   integer omp_get_num_threads
@@ -1008,8 +1011,6 @@ DEBUG_ENER_DRIFT=0.0
 ! set local counter to zero
   ndump = 0
 !
-  tt = 0.0
-
 ! switch back for restart purposes
   if (do_restart.EQV..true.) then
     call CPU_time(t2)
@@ -1060,9 +1061,7 @@ DEBUG_ENER_DRIFT=0.0
 !
   call CPU_time(t2)
   eit = eit + t2 - t1
-
   curframe = 0
-
   if ((do_pka.eqv..true.).or.(do_hsq.eqv..true.)) then 
       if (debug_pka.eqv..true.) then 
         !call write_pka_details(1)! Commenting this out for now because i think there is duplicate values, plus the
@@ -1071,12 +1070,109 @@ DEBUG_ENER_DRIFT=0.0
             call print_limits_summary()
         end if
       end if
-  end if 
-
+  end if
   done_dets=.false.
 
-  do istep = firststep,nsim ! MARTIN : here is the main loop      
-    if (print_det.eqv..true.) then 
+if ((do_hsq).and.(do_hsq_CROSS).and.(pdb_analyze.EQV..true.)) then
+    ! Now need to make the energy output file with a name, and make the loop over the states
+    do nq=1,n_charge_states
+        seq_q_state(1:n_res)=q_states(nq,:)
+        write(num_str, '(I0)') nq
+        enfile="ENERGY_"// trim(adjustl(num_str)) //".dat"
+        write(ilog,*) "Evalutating trajectory energy under charge state hamiltonian : "
+        write(ilog,'(*(I0))') seq_q_state(1:n_res)
+        write(ilog,*) "Energy file name : ",enfile
+        do rs=1,nseq
+            if (seq_q_state(rs).eq.1) then
+                par_hsq(rs,1)=0.
+                par_hsq(rs,2)=0.
+                par_hsq(rs,3)=0.
+                par_hsq(rs,4)=0.
+            else if ((seq_q_state(rs).eq.2).or.(seq_q_state(rs).eq.3)) then
+                par_hsq(rs,1)=1.
+                par_hsq(rs,2)=1.
+                par_hsq(rs,3)=1.
+                par_hsq(rs,4)=1.
+            end if
+        end do
+        do i=1,nhis
+            if (seq_q_state(his_state(i,1)).eq.1) then
+                his_state(i,2)=0
+            else if (seq_q_state(his_state(i,1)).eq.2) then
+                his_state(i,2)=0
+            else if (seq_q_state(his_state(i,1)).eq.3) then
+                his_state(i,2)=1
+            end if
+        end do
+        call scale_stuff_hsq()
+        call switch_bonds()
+        inquire(file=enfile,exist=exists)
+        nstep=0
+        if (exists.EQV..true.) then
+           iene = freeunit()
+           open (unit=iene,file=enfile,status='old')
+           close(unit=iene,status='delete')
+        end if
+        if (enout.le.nsim) then
+          iene = freeunit()
+          open (unit=iene,file=enfile,status='new')
+          enopen = .true.
+        end if
+        call rewind_pdb()
+        do istep = firststep,nsim ! MARTIN : here is a copy of tyhe main loop specifically for the purpose of evaluating the full trajectroey
+              ! over multiple charge states in a single analysis run
+              !   in the pdb-analysis mode a "move" is the next structure
+              ! strictly for analysis using a pre determined trajectory
+!              print *,"istep",istep
+              nstep = nstep + 1
+              if (pdb_fileformat.eq.1) call FMSMC_readpdb2(istep)
+              if (pdb_fileformat.eq.2) call FMSMC_readpdb2(istep)
+            #ifdef LINK_XDR
+              if (pdb_fileformat.eq.3) call FMSMC_readxtc(istep)! MARTIN : this is the common pdb+xtc mode
+
+            #endif
+              if (pdb_fileformat.eq.4) call FMSMC_readdcd(istep)
+            #ifdef LINK_NETCDF
+              if (pdb_fileformat.eq.5) call FMSMC_readnetcdf(istep)
+            #endif
+              if (select_frames.EQV..true.) then
+                if (istep.eq.framelst(curframe+1)) then
+                  curframe = curframe + 1
+                else
+                  cycle
+                end if
+              end if
+            #ifdef ENABLE_MPI
+              if (re_aux(3).eq.1) call MPI_RETrajMode(istep) ! un-REX trajectories
+            #endif
+              call CPU_time(t1)
+              if (use_dyn.EQV..true.) then
+                esave = force3(esterms,esterms_tr,esterms_lr,atrue)
+              else
+                esave = energy3(esterms,atrue)
+              end if
+              call CPU_time(t2)
+              time_energy = time_energy + t2 - t1
+              if (align%yes.EQV..true.) then
+                if (mod(istep,align%calc).eq.0) call struct_align()
+              end if
+              call CPU_time(t1)
+              call mcstat(istep,ndump)
+              call CPU_time(t2)
+              time_analysis = time_analysis + t2 - t1
+              if ((mod(istep,nsancheck).eq.0).AND.((dyn_mode.eq.1).OR.(dyn_mode.eq.5).OR.(dyn_mode.eq.7).OR.(dyn_mode.eq.8))) then
+                call CPU_time(t1)
+                call energy_check()
+                call CPU_time(t2)
+                time_energy = time_energy + t2 - t1
+              end if
+              cycle
+        end do
+    end do
+end if
+
+  do istep = firststep,nsim ! MARTIN : here is the main loop
+    if (print_det.eqv..true.) then ! Martin : relative to recalibration effrrts, abandonned
         if (mod(istep,sav_det_freq).eq.0) then 
             if (sav_det_mode.eq.1) then 
                 call write_detailed_energy_1(en_fos_memory,istep)
@@ -1084,10 +1180,17 @@ DEBUG_ENER_DRIFT=0.0
                 call write_detailed_energy_2(sav_memory,istep)
             end if 
         end if 
-    end if 
+    end if
 !   in the pdb-analysis mode a "move" is the next structure
     if (pdb_analyze.EQV..true.) then ! strictly for analysis using a pre determined trajectory
       nstep = nstep + 1
+      if ((do_hsq).and..not.(do_hsq_CROSS)) then
+          ! Martin : the protonation moves are NOT included in the traj, I ened to explicitly change them.
+          seq_q_state(:)=q_vs_t(nstep,:)
+      else if ((do_hsq).and.(do_hsq_CROSS)) then
+          ! This means we have alrready done the calc just before
+          exit
+      end if
       if (pdb_fileformat.eq.1) call FMSMC_readpdb2(istep)
       if (pdb_fileformat.eq.2) call FMSMC_readpdb2(istep)
 #ifdef LINK_XDR
@@ -1437,50 +1540,50 @@ if (do_hs.eqv..true.) then
     & index. The sum over the comlumn for each states should be significant, meaning they have been proposed a high enough number&
     &of times'
     
-    do i=1,n_charge_states
-        WWW=''
-        do j=1,n_charge_states
-            WW_tmp=''
-            write(WW_tmp,'(I0,A1)') acc%HSQ_state_tries(i,j),char(9)
-            WWW=trim(WWW)//trim(WW_tmp)
-        end do 
-        write(my_format,'(A2,I0,A1)')'(A',len(trim(WWW)),')'
-        write(HSQ_tries,my_format) WWW
-    end do
-    
-    write(ilog,*) 'The following is the charge states transition matrix number of acceptances.'
-    do i=1,n_charge_states
-        WWW=''
-        
-        do j=1,n_charge_states
-            WW_tmp=''
-            write(WW_tmp,'(I0,A1)') acc%HSQ_state_acc(i,j),char(9)
-            WWW=trim(WWW)//trim(WW_tmp)
-        end do 
-        write(my_format,'(A2,I0,A1)')'(A',len(trim(WWW)),')'
-        write(HSQ_acc,my_format) WWW
-    end do
-    
-
-    write(ilog,*) 'The following is the charge states transition matrix acceptance ratio.'
-    do i=1,n_charge_states
-        WWW=''
-        do j=1,n_charge_states
-            WW_tmp=''
-            if (acc%HSQ_state_tries(i, j).ne.0) then 
-                temp_1=acc%HSQ_state_acc(i,j)
-                temp_2=acc%HSQ_state_tries(i,j)
-                temp_sum=temp_1/temp_2
-                write(WW_tmp,'(F6.5,A1)') temp_sum,char(9)
-            else 
-                write(WW_tmp,'(F6.5,A1)') 0.0,char(9)
-            end if 
-            WWW=trim(WWW)//trim(WW_tmp)
-        end do 
-        write(my_format,'(A2,I0,A1)')'(A',len(trim(WWW)),')'
-        write(HSQ_ratio,my_format) WWW
-    end do
-    
+!    do i=1,n_charge_states
+!        WWW=''
+!        do j=1,n_charge_states
+!            WW_tmp=''
+!            write(WW_tmp,'(I0,A1)') acc%HSQ_state_tries(i,j),char(9)
+!            WWW=trim(WWW)//trim(WW_tmp)
+!        end do
+!        write(my_format,'(A2,I0,A1)')'(A',len(trim(WWW)),')'
+!        write(HSQ_tries,my_format) WWW
+!    end do
+!
+!    write(ilog,*) 'The following is the charge states transition matrix number of acceptances.'
+!    do i=1,n_charge_states
+!        WWW=''
+!
+!        do j=1,n_charge_states
+!            WW_tmp=''
+!            write(WW_tmp,'(I0,A1)') acc%HSQ_state_acc(i,j),char(9)
+!            WWW=trim(WWW)//trim(WW_tmp)
+!        end do
+!        write(my_format,'(A2,I0,A1)')'(A',len(trim(WWW)),')'
+!        write(HSQ_acc,my_format) WWW
+!    end do
+!
+!
+!    write(ilog,*) 'The following is the charge states transition matrix acceptance ratio.'
+!    do i=1,n_charge_states
+!        WWW=''
+!        do j=1,n_charge_states
+!            WW_tmp=''
+!            if (acc%HSQ_state_tries(i, j).ne.0) then
+!                temp_1=acc%HSQ_state_acc(i,j)
+!                temp_2=acc%HSQ_state_tries(i,j)
+!                temp_sum=temp_1/temp_2
+!                write(WW_tmp,'(F6.5,A1)') temp_sum,char(9)
+!            else
+!                write(WW_tmp,'(F6.5,A1)') 0.0,char(9)
+!            end if
+!            WWW=trim(WWW)//trim(WW_tmp)
+!        end do
+!        write(my_format,'(A2,I0,A1)')'(A',len(trim(WWW)),')'
+!        write(HSQ_ratio,my_format) WWW
+!    end do
+!
 !    WWW=''
 !    write(ilog,*) 'For a simpler visualization : this is over the column sum of tries and acceptance )'
 !        do j=1,n_charge_states
