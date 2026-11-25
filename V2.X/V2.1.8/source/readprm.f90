@@ -273,7 +273,6 @@ subroutine readprm()
             transform_table(i)=1098 !OD2
         else if (i.eq.1228) then ! Aspartic acid titrable proton 
             transform_table(i)=1099 ! Martin  : changed again! From here on histidine tautomers
-
         else if (i.eq.1229) then ! That is tyhe HEX
             transform_table(i)=196 
         else if (i.eq.1230) then 
@@ -391,6 +390,8 @@ subroutine readprm()
             transform_table(i)=204
         else if (i.eq.1327) then
             transform_table(i)=205
+!        else if (i.eq.1328) then ! Tentative of adding GHT as a titratable. not finsihed for now, would be needed to avoid fporward and reverse traj duplicates
+!            transform_table(i)=444
         else
             transform_table(i)=i
         end if         
@@ -422,37 +423,15 @@ subroutine readprm()
     lj_transform_table(40)=8  !
     lj_transform_table(41)=1  ! Two different limits for the nitrogen atoms in order to have two different limits for histidne,                         
     lj_transform_table(42)=1  ! may not be necessary
-    lj_transform_table(43)=11
-    
-    allocate(his_eqv_table(n_biotyp)) !This is define for all residues only to make code easier to read and understand
-    
+    lj_transform_table(43)=1
+    ! This last one is for the GHT, not so sure that would work
+!    lj_transform_table(44)=44
+
+    allocate(his_eqv_table(n_biotyp))
+
+    !This is define for all residues only to make code easier to read and understand
     ! Martin : changed the strategy : his_eqv is directly the third limit now
     ! The third limit is HDX (was HEX, changing)
-!    do i=1,n_biotyp
-!        his_eqv_table(i)=i
-!        if (i.eq.1229) then
-!            his_eqv_table(i)=180
-!        else if (i.eq.1231) then
-!            his_eqv_table(i)=182
-!        else if (i.eq.1232) then
-!            his_eqv_table(i)=183
-!        else if (i.eq.1233) then
-!            his_eqv_table(i)=184
-!        else if (i.eq.1234) then
-!            his_eqv_table(i)=185
-!        else if (i.eq.1235) then
-!            his_eqv_table(i)=186
-!        else if (i.eq.1236) then
-!            his_eqv_table(i)=187
-!        else if (i.eq.1237) then
-!            his_eqv_table(i)=188
-!        else if (i.eq.1238) then
-!            his_eqv_table(i)=189
-!        else if (i.eq.1239) then
-!            his_eqv_table(i)=1208
-!        end if
-!    end do
-!
     ! Martin : changed the strategy : his_eqv is directly the third limit now
     ! The third limit is HDX : I think I need a third HIX specie
     ! This is beacuse I must be able to interpolate
@@ -480,6 +459,8 @@ subroutine readprm()
             his_eqv_table(i)=189
         else if (i.eq.1327) then
             his_eqv_table(i)=1208
+!        else if (i.eq.1328) then
+!            his_eqv_table(i)=445 ! Again this is for GHT as titrtable, does not work, breaks things if uncommented
         end if
     end do
   end if

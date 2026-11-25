@@ -1280,18 +1280,21 @@ subroutine Ven_rsp_long(evec,rs1,rs2,cut)
     end if
 !
     if (use_POLAR.EQV..true.) then
-!
 !     first set the necessary atom-specific parameters (mimimal)
       k = 0
       pfac = electric*scale_POLAR
       alcsz = nrpolnb(rs)
-            
       if (alcsz.gt.0) then
         if (use_IMPSOLV.EQV..true.) then
           if (scrq_model.le.2) then
             do i=1,nrpolnb(rs)
               ii = iaa(rs)%polnb(i,1)
               kk = iaa(rs)%polnb(i,2)
+              if ((ii.eq.0).or.(kk.eq.0)) then
+                  print *,"rs",rs,ii,kk,i
+                  print *,nrpolnb(rs)
+                  flush(6)
+              end if
               dvec(i,1) = x(kk) - x(ii)! + svec(1)
               dvec(i,2) = y(kk) - y(ii)! + svec(2)
               dvec(i,3) = z(kk) - z(ii)! + svec(3)
@@ -1302,6 +1305,7 @@ subroutine Ven_rsp_long(evec,rs1,rs2,cut)
             do i=1,nrpolnb(rs)
               ii = iaa(rs)%polnb(i,1)
               kk = iaa(rs)%polnb(i,2)
+
               dvec(i,1) = x(kk) - x(ii)! + svec(1)
               dvec(i,2) = y(kk) - y(ii)! + svec(2)
               dvec(i,3) = z(kk) - z(ii)! + svec(3)

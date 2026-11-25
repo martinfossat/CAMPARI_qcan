@@ -624,6 +624,7 @@ subroutine qcann_iaa_index_corrections(limit1,limit2)
     use aminos
     use atoms
     use params
+    use iounit
     implicit none
     logical good,reverse
     RTYPE, allocatable:: temp_var1(:),  temp_var2(:)
@@ -707,7 +708,7 @@ subroutine qcann_iaa_index_corrections(limit1,limit2)
                 iaa_limits(rs,limit1)%par_ba(i,3)=0.
                 iaa_limits(rs,limit1)%par_ba(i,4)=iaa_limits(rs,limit2)%par_ba(i,4)
             else if ((iaa_limits(rs,limit1)%typ_ba(i).eq.3).or.(iaa_limits(rs,limit2)%typ_ba(i).eq.3)) then 
-                print *,"Wrong angle type for atom ",iaa(rs)%ba(i,1),iaa(rs)%ba(i,2),iaa(rs)%ba(i,3)," : RETI does&
+                write(ilog,*) "Wrong angle type for atom ",iaa(rs)%ba(i,1),iaa(rs)%ba(i,2),iaa(rs)%ba(i,3)," : RETI does&
                 & not support cosine based harmonic potential"
                 call fexit()
             else if ((iaa_limits(rs,limit1)%typ_ba(i).eq.1).and.(iaa_limits(rs,limit2)%typ_ba(i).eq.0)) then
@@ -815,9 +816,9 @@ subroutine qcann_iaa_index_corrections(limit1,limit2)
                     iaa_limits(rs,limit2)%typ_bl(i)=iaa_limits(rs,limit1)%typ_bl(i)
                 else 
                     
-                    print *,"Unfortunately, RETI does not support varying bond length types(",iaa_limits(rs,limit1)%typ_bl(i),&
+                    write(ilog,*) "Unfortunately, RETI does not support varying bond length types(",iaa_limits(rs,limit1)%typ_bl(i),&
                     &iaa_limits(rs,limit2)%typ_bl(i),"). Exiting."
-                    print *,"The previous message corresponds to atoms :",iaa(rs)%bl(i,:),&
+                    write(ilog,*) "The previous message corresponds to atoms :",iaa(rs)%bl(i,:),&
                     &iaa_limits(rs,limit1)%bl(i,:),iaa_limits(rs,limit2)%bl(i,:)
                     flush(6)
                     call fexit()
@@ -922,11 +923,11 @@ subroutine qcann_iaa_index_corrections(limit1,limit2)
 
             if ((memory(1).eq.0).or.(memory(2).eq.0).or.(memory(3).eq.0).or.(memory(4).eq.0)) then 
                 ! If this prints, then you have exclusive contacts in both lists. Should not happen.
-                print *,"Problem with the dihedral interpolation arrays."
-                print *,rs,i
-                print *,memory(:)
-                print *,iaa_limits(rs,limit1)%di(i,:)
-                print *,iaa_limits(rs,limit2)%di(i,:)
+                write(ilog,*) "Problem with the dihedral interpolation arrays."
+                write(ilog,*) rs,i
+                write(ilog,*) memory(:)
+                write(ilog,*) iaa_limits(rs,limit1)%di(i,:)
+                write(ilog,*) iaa_limits(rs,limit2)%di(i,:)
                 flush(6)
                 call fexit()
             end if 
@@ -951,9 +952,9 @@ subroutine qcann_iaa_index_corrections(limit1,limit2)
                 else if (iaa_limits(rs,limit2)%typ_di(i).eq.0) then
                     iaa_limits(rs,limit2)%typ_di(i)=iaa_limits(rs,limit1)%typ_di(i)
                 else
-                    print *,iaa_limits(rs,limit1)%di(i,:)
-                    print *,iaa_limits(rs,limit2)%di(i,:)
-                    print *,"Unfortunately, RETI does not support varying dihedral types. Exiting."
+                    write(ilog,*) iaa_limits(rs,limit1)%di(i,:)
+                    write(ilog,*) iaa_limits(rs,limit2)%di(i,:)
+                    write(ilog,*) "Unfortunately, RETI does not support varying dihedral types. Exiting."
                     call fexit()
                 end if 
             end if
@@ -1097,7 +1098,7 @@ subroutine qcann_iaa_index_corrections(limit1,limit2)
             else if (iaa_limits(rs,limit2)%typ_impt(i).eq.0) then 
                 iaa_limits(rs,limit2)%typ_impt(i)=iaa_limits(rs,limit1)%typ_impt(i)
             else if (iaa_limits(rs,limit1)%typ_impt(i).ne.iaa_limits(rs,limit2)%typ_impt(i)) then 
-                print *,"Unfortunately, RETI does not support varying improper dihedral types. Exiting."
+                write(ilog,*) "Unfortunately, RETI does not support varying improper dihedral types. Exiting."
                 call fexit() ! Martin : just seeing further to catch the problem 
                 
             end if
@@ -1131,12 +1132,12 @@ subroutine qcann_iaa_index_corrections(limit1,limit2)
             
             if ((memory(1).eq.0).or.(memory(2).eq.0).or.(memory(3).eq.0).or.(memory(4).eq.0)) then 
                 ! If this prints, then you have exclusive contacts in both lists. Should not happen
-                print *,"impt","If this prints, then you have exclusive contacts in both lists. Should not happen"
-                print *,rs,i
-                print *,"Problem is with limits ",limit1,limit2
-                print *,memory(:)
-                print *,iaa_limits(rs,limit1)%impt(i,:)
-                print *,iaa_limits(rs,limit2)%impt(i,:)
+                write(ilog,*) "impt","If this prints, then you have exclusive contacts in both lists. Should not happen"
+                write(ilog,*) rs,i
+                write(ilog,*) "Problem is with limits ",limit1,limit2
+                write(ilog,*) memory(:)
+                write(ilog,*) iaa_limits(rs,limit1)%impt(i,:)
+                write(ilog,*) iaa_limits(rs,limit2)%impt(i,:)
                 flush(6)
                 call fexit()
             end if 
@@ -1167,10 +1168,10 @@ subroutine qcann_iaa_index_corrections(limit1,limit2)
             memory(:)=test_combi(iaa_limits(rs,limit1)%di(i,:),iaa_limits(rs,limit2)%di(i,:),size(iaa(rs)%di(i,:)))     
             do j=1,size(memory(:))
                 if (memory(j).ne.j) then  
-                    print *,"Got a problem with DI post",memory(:),rs,i
-                    print *,"Problem is with limits ",limit1,limit2
-                    print *,"lim1",iaa_limits(rs,limit1)%di(i,:)
-                    print *,"lim2",iaa_limits(rs,limit2)%di(i,:)
+                    write(ilog,*) "Got a problem with DI post",memory(:),rs,i
+                    write(ilog,*) "Problem is with limits ",limit1,limit2
+                    write(ilog,*) "lim1",iaa_limits(rs,limit1)%di(i,:)
+                    write(ilog,*) "lim2",iaa_limits(rs,limit2)%di(i,:)
                     exit
                 end if 
             end do
@@ -1184,17 +1185,17 @@ subroutine qcann_iaa_index_corrections(limit1,limit2)
             memory(:)=test_combi(iaa_limits(rs,limit1)%impt(i,:),iaa_limits(rs,limit2)%impt(i,:),size(iaa(rs)%impt(i,:)))
             do j=1,size(memory(:))
                 if (memory(j).ne.j) then 
-                    print *,"Got a problem with IMPT",memory(:),rs,i
-                    print *,"Problem is with limits ",limit1,limit2
-                    print *,"lim",limit1,iaa_limits(rs,limit1)%impt(i,1),iaa_limits(rs,limit1)%impt(i,2),&
+                    write(ilog,*) "Got a problem with IMPT",memory(:),rs,i
+                    write(ilog,*) "Problem is with limits ",limit1,limit2
+                    write(ilog,*) "lim",limit1,iaa_limits(rs,limit1)%impt(i,1),iaa_limits(rs,limit1)%impt(i,2),&
                     iaa_limits(rs,limit1)%impt(i,3),&
                     &iaa_limits(rs,1)%impt(i,4)
-                    print *,"lim",limit2,iaa_limits(rs,limit2)%impt(i,1),iaa_limits(rs,limit2)%impt(i,2),&
+                    write(ilog,*) "lim",limit2,iaa_limits(rs,limit2)%impt(i,1),iaa_limits(rs,limit2)%impt(i,2),&
                     &iaa_limits(rs,limit2)%impt(i,3),&
                     &iaa_limits(rs,2)%impt(i,4)
-                    print *,"memory",memory
-                    print *,"the index is ",i
-                    print *,"the residue is ",rs
+                    write(ilog,*) "memory",memory
+                    write(ilog,*) "the index is ",i
+                    write(ilog,*) "the residue is ",rs
                     exit
                 end if 
             end do
@@ -1569,17 +1570,22 @@ subroutine setup_charge_step_2(limit1,limit2)
         if (((ats_temp(rs,limit1)%ndpgrps.ne.ats_temp(rs,limit2)%ndpgrps)).and.&
         &((ats_temp(rs,limit1)%ndpgrps.eq.0).or.(ats_temp(rs,limit2)%ndpgrps.eq.0))) then
             if (ats_temp(rs,limit1)%ndpgrps.eq.0) then
-                
+
                 ats_temp(rs,limit1)%ndpgrps=ats_temp(rs,limit2)%ndpgrps
                 ! Martin : I may need to come back to this
                 deallocate(ats_temp(rs,limit1)%dpgrp)
                 allocate(ats_temp(rs,limit1)%dpgrp(ats_temp(rs,limit1)%ndpgrps))
                 do dp=1,ats_temp(rs,limit1)%ndpgrps
                     ats_temp(rs,limit1)%dpgrp(dp)%nats=ats_temp(rs,limit2)%dpgrp(dp)%nats
-                    deallocate(ats_temp(rs,limit1)%dpgrp(dp)%ats)
+                    ! Why was this deallocated when it could not possibly be allocated in the first place
+!                    deallocate(ats_temp(rs,limit1)%dpgrp(dp)%ats)
+
                     allocate(ats_temp(rs,limit1)%dpgrp(dp)%ats(ats_temp(rs,limit1)%dpgrp(dp)%nats))
+
                     ats_temp(rs,limit1)%dpgrp(dp)%ats(:)=ats_temp(rs,limit2)%dpgrp(dp)%ats(:)
+
                     ats_temp(rs,limit1)%dpgrp(dp)%cgn=ats_temp(rs,limit2)%dpgrp(dp)%cgn
+
                 end do
             else
                 ats_temp(rs,limit2)%ndpgrps=ats_temp(rs,limit1)%ndpgrps
@@ -1759,8 +1765,6 @@ subroutine setup_charge_step_4(limit1,limit2)
       polnb_added1(:,:)=0
       polnb_added2(:,:)=0
 
-
-
     ! Now the next part should unecessary 
     ! Martin : first get the size of the arrays to match
     do rs=1,nseq
@@ -1809,7 +1813,9 @@ subroutine setup_charge_step_4(limit1,limit2)
                         iaa_limits(rs,limit1)%polnb(i,:)=temp_var5(i,:)
                     end do 
                     !!!!!!!%expolnb
-                    allocate(temp_var6(size(temp_var5(:,1)),2))
+!                    allocate(temp_var6(size(temp_var5(:,1)),2))
+                    allocate(temp_var6, mold=iaa_limits(rs,limit1)%expolnb(:,:))
+
                     temp_var6(:,:)=iaa_limits(rs,limit1)%expolnb(:,:)
                     deallocate(iaa_limits(rs,limit1)%expolnb)
                     allocate(iaa_limits(rs,limit1)%expolnb(size(iaa_limits(rs,limit2)%expolnb(:,1)),2))
@@ -2186,7 +2192,7 @@ subroutine setup_charge_step_4(limit1,limit2)
     deallocate(polin_added2)
     deallocate(polnb_added1)
     deallocate(polnb_added2)
-    
+
     iaa(:)=iaa_limits(:,limit1)
     fudge(:)=fudge_limits(:,limit1)
     

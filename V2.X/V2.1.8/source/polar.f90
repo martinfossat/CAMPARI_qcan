@@ -55,15 +55,10 @@ subroutine polar_groups()
   use system
   use fyoc
   use zmatrix
-  
-  
   use energies ! Martin added just for TOTQX
 !
-  
-  use mpistuff ! Martin : added for debug only   
-  
+  use mpistuff ! Martin : added for debug only
   implicit none
-!
   integer i,j,k,l,ii,kk,rs,imol,cty,shf,shf3,shf5
   integer, ALLOCATABLE:: skip(:),tmpvec(:)
   type(t_at), ALLOCATABLE :: at_temp(:)
@@ -113,15 +108,11 @@ subroutine polar_groups()
 ! up with arbitrary charges, it is certainly not easy to make sure that the
 ! interaction arrays and charge sets are all sane and fully supported at all
 ! levels
-
 ! loop over all molecules in the system
   do imol=1,nmol
-!
 !   and over all residues within each molecule
     do rs=rsmol(imol,1),rsmol(imol,2)
-!
       resname = amino(seqtyp(rs))
-
 !     first deal with unsupported residues (charges may be available through biotype patch)
       if (resname.eq.'UNK') then
         at(rs)%npol = 0
@@ -131,7 +122,6 @@ subroutine polar_groups()
           else
             ii = at(rs)%sc(i-at(rs)%nbb)
           end if
-          
           cty = bio_ctyp(b_type(ii))
           !! Ok so I need to reformulate that so the charges are taken into account in the case of a partial charge, but also 
           !! in the case of a monopole. One way could be to assign fakes charges to the atoms in the 
@@ -148,9 +138,7 @@ subroutine polar_groups()
         end do
         cycle
       end if
-!
       if (rsmol(imol,1).eq.rsmol(imol,2)) then
-!
 !       deal with small molecules first
         if ((seqflag(rs).ge.101).AND.(seqflag(rs).le.103)) then
           at(rs)%npol = 0
@@ -162,13 +150,13 @@ subroutine polar_groups()
             end if
             cty = bio_ctyp(b_type(ii))
             if (cty.eq.0) cycle
-            if ((abs(c_charge(cty)).gt.eps).or.(cty.eq.275))  then
+            if ((abs(c_charge(cty)).gt.eps).or.(cty.eq.275).or.(resname.eq.'GHT'))  then
+                ! The GHT exception is simply to make the arrays the same regardless of the ghost particle state
                 at(rs)%npol = at(rs)%npol + 1
                 at(rs)%pol(at(rs)%npol) = ii
                 atq(ii) = c_charge(cty)
             end if
           end do
-!
 !       now onto free amino acids
         else if ((seqflag(rs).eq.2).OR.(seqflag(rs).eq.8)) then
           at(rs)%npol = 0
@@ -1059,13 +1047,11 @@ subroutine polar_groups()
           end do
         end do
       else
-!
         write(ilog,*) 'Fatal. Encountered unknown electrostatic mode&
  &l in polar_groups(). This is most certainly a bug.'
         call fexit()
 !
       end if
-!
     end if
     
 
@@ -1075,9 +1061,6 @@ subroutine polar_groups()
 !   if the residue is the last residue in a molecule, simply add
 !   all possible interaction to the next one
     imol = molofrs(rs)
-    
-
-    
     if ((rs.eq.rsmol(imol,2)).AND.(rsmol(imol,2).lt.nseq)) then
       nrpolnb(rs) = 0
       resname = amino(seqtyp(rs))
@@ -1095,6 +1078,7 @@ subroutine polar_groups()
       end do
       cycle
     end if
+
 !
 !   in the connected case, the situation is more complicated 
     nrpolnb(rs) = 0
@@ -1307,11 +1291,8 @@ subroutine polar_groups()
             end if
           end do
         end do
-!
       end if
-!
     else if ((nbsr_model.eq.2).OR.(nbsr_model.eq.3)) then
-!
       if (elec_model.eq.2) then
         do dp1=1,at(rs)%ndpgrps
           do dp2=1,at(rs+1)%ndpgrps
@@ -1326,7 +1307,6 @@ subroutine polar_groups()
                 kk = at(rs+1)%dpgrp(dp2)%ats(k)
                 if (((seqtyp(rs).eq.26).AND.(abs(atq(ii)).le.eps)).OR.&
  &                  ((seqtyp(rs+1).eq.26).AND.(abs(atq(kk)).le.eps))) cycle
-!
                 do j=1,n12(ii)
                   if (i12(j,ii).eq.kk) proceed = .false.
                 end do
@@ -1685,7 +1665,7 @@ subroutine get_dipgrps()
     else if (dpgrp_corr.eqv..true.) then
         if ((resname.eq."HIP").or.(resname.eq."HIE").or.(resname.eq."HID").or.(resname.eq."HEX").or.&
             &(resname.eq."HDX").or.(resname.eq."TYX").or.(resname.eq."TYO").or.(resname.eq."TYR").or.&
-            &(resname.eq."SXP").or.(resname.eq."S1P").or.(resname.eq."S2P").or.(resname.eq."HIX")) then 
+            &(resname.eq."SXP").or.(resname.eq."S1P").or.(resname.eq."S2P").or.(resname.eq."HIX").or.(resname.eq."GHT")) then
             ! Doing a quick implementation
             if ((resname.eq."HIP").or.(resname.eq."HIE").or.(resname.eq."HID").or.(resname.eq."HEX").or.&
                 &(resname.eq."HDX").or.(resname.eq."HIX")) then 
@@ -1694,6 +1674,14 @@ subroutine get_dipgrps()
                 at(rs)%ndpgrps=4
             else if  ((resname.eq."SXP").or.(resname.eq."S1P").or.(resname.eq."S2P")) then 
                 at(rs)%ndpgrps=3
+            else if (resname.eq."GHT") then
+                at(rs)%ndpgrps=1
+                allocate(at(rs)%dpgrp(at(rs)%ndpgrps))
+                at(rs)%dpgrp(1)%nats=1
+                allocate(at(rs)%dpgrp(1)%ats(at(rs)%dpgrp(1)%nats))
+                at(rs)%dpgrp(1)%ats(1)=at(rs)%pol(1)
+                at(rs)%dpgrp(1)%tc=0
+                cycle
             end if
             allocate(at(rs)%dpgrp(at(rs)%ndpgrps))
             !first, assign the backbone dipolar group. O and CO is its own, NH-HN-CA-HA another one
@@ -2330,10 +2318,7 @@ subroutine get_dipgrps()
   do rs=1,nseq
 !    write(*,*) 'here for ',rs,' and ',at(rs)%dpgrp(1)%nats
     do i=1,at(rs)%ndpgrps
-!      print *,rs,i
-!      print *,at(rs)%dpgrp(i)%ats(:)
-!      at(rs)%dpgrp(i)%qnm = sum(abs(atq(at(rs)%dpgrp(i)%ats(1:at(rs)%dpgrp(i)%nats))))
-!      which_dpg(at(rs)%dpgrp(i)%ats(1:at(rs)%dpgrp(i)%nats)) = i
+
       at(rs)%dpgrp(i)%qnm = 0.0
 
       do k=1,at(rs)%dpgrp(i)%nats
