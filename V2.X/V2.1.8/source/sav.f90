@@ -206,6 +206,9 @@ subroutine setup_freesolv()
       freesolv(i,1:3) = FOS_CL(1:3)
     else if (resname.eq.'GHT') then
       freesolv(i,1:3) = 0.0
+      freesolv_limits(i,1:3,1) = 0.0
+      freesolv_limits(i,1:3,2) = FOS_NA(1:3)
+      freesolv_limits(i,1:3,3) = FOS_CL(1:3)
     else if (resname.eq.'NAX') then
       freesolv_limits(i,1:3,1) = FOS_NA(1:3)
       freesolv_limits(i,1:3,2) = 0.0

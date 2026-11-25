@@ -947,8 +947,7 @@ subroutine key_energies_l2(wo1,wt11,wt12,wo2,wt21,wt22,wo3,wt31,&
   logical exists
 !
   hlp2 = 1
-!
-  if (which.eq.2) then
+if (which.eq.2) then
    if (do_hs.eqv..true.) then
        if (keyword(1:14) .eq. 'FMCSC_HS_MODE ') then !HS mode : 1 is from file, 2 is everything, 3 is NA+ CL- only
             !hamiltonian applies on
@@ -1027,17 +1026,15 @@ subroutine key_energies_l2(wo1,wt11,wt12,wo2,wt21,wt22,wo3,wt31,&
           end if
         end if
 
-
         if (keyword(1:16) .eq. 'FMCSC_PKA_DEBUG ') then
           read (wo1(wt11:wt12),*) dum
           call dum2int(dum,choice)
-          if (choice .eq. 1) then
-            debug_pka = .true.
+          if (choice.eq.1) then
+            debug_pka=.true.
           else
-            debug_pka = .false.
+            debug_pka=.false.
           end if
-        end if 
-
+        end if
       ! New 2.1.8
        if (keyword(1:18) .eq. 'FMCSC_PKA_DF_CORR ') then
           read (wo1(wt11:wt12),*) dum
@@ -1125,16 +1122,16 @@ subroutine key_energies_l2(wo1,wt11,wt12,wo2,wt21,wt22,wo3,wt31,&
               else 
                 alt_mode = choice
               end if
-           else if (keyword(1:18) .eq. 'FMCSC_HSQ_GHT_DIR ') then
-             ! This is the direction of the tranformation of the ghost particle
-              read (wo1(wt11:wt12),*) dum
-              call dum2int(dum,choice)
-              if ((choice.lt.-1).or.(choice.gt.1)) then
-                  write(ilog,*) "Invalid option for FMCSC_HSQ_GHT_DIR, defaulting to 0"
-                  ght_dir = 0
-              else
-                  ght_dir = choice
-              end if
+!           else if (keyword(1:18) .eq. 'FMCSC_HSQ_GHT_DIR ') then
+!             ! This is the direction of the tranformation of the ghost particle
+!              read (wo1(wt11:wt12),*) dum
+!              call dum2int(dum,choice)
+!              if ((choice.lt.-1).or.(choice.gt.1)) then
+!                  write(ilog,*) "Invalid option for FMCSC_HSQ_GHT_DIR, defaulting to 0"
+!                  ght_dir = 0
+!              else
+!                  ght_dir = choice
+!              end if
             end if
         end if
 

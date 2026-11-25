@@ -170,7 +170,7 @@ DEBUG_ENER_DRIFT=0.0
 #endif
 !
   if ((pdb_analyze.eqv..false.).and.(print_det.eqv..true.)) then 
-      print *,"Solvation energy details analysis can only be done in analysis runs. Turning off."
+      write(ilog,*) "Solvation energy details analysis can only be done in analysis runs. Turning off."
       print_det=.false.
   end if
   logbuff = use_trajidx
@@ -621,6 +621,9 @@ DEBUG_ENER_DRIFT=0.0
       deallocate(y_limits)
       deallocate(z_limits)
   end if
+
+
+
 ! if equilibration run manually turn off analysis, so we don't do
 ! unnecessary and potentially ill-defined setup work
   if (nequil.ge.nsim) then
@@ -974,6 +977,16 @@ DEBUG_ENER_DRIFT=0.0
 
 ! set up file I/O (get handles/open files)
   call makeio(aone)
+  if ((do_pka.eqv..true.).or.(do_hsq.eqv..true.)) then
+      if (debug_pka.eqv..true.) then
+        !call write_pka_details(1)! Commenting this out for now because i think there is duplicate values, plus the
+        call print_values_summary()
+        if (myrank.eq.0) then
+            call print_limits_summary()
+        end if
+      end if
+  end if
+
 
 ! setup for indexed trajectory output
   use_trajidx = logbuff
@@ -1062,15 +1075,6 @@ DEBUG_ENER_DRIFT=0.0
   call CPU_time(t2)
   eit = eit + t2 - t1
   curframe = 0
-  if ((do_pka.eqv..true.).or.(do_hsq.eqv..true.)) then 
-      if (debug_pka.eqv..true.) then 
-        !call write_pka_details(1)! Commenting this out for now because i think there is duplicate values, plus the
-        call print_values_summary()
-        if (myrank.eq.0) then
-            call print_limits_summary()
-        end if
-      end if
-  end if
   done_dets=.false.
 
 if ((do_hsq).and.(do_hsq_CROSS).and.(pdb_analyze.EQV..true.)) then
@@ -1080,8 +1084,10 @@ if ((do_hsq).and.(do_hsq_CROSS).and.(pdb_analyze.EQV..true.)) then
         write(num_str, '(I0)') nq
         enfile="ENERGY_"// trim(adjustl(num_str)) //".dat"
         write(ilog,*) "Evalutating trajectory energy under charge state hamiltonian : "
+        write(ilog, '(A, I0, A, I0, A)') "Evaluating trajectory energy under charge state hamiltonian (", nq, " out of ", n_charge_states, "): "
         write(ilog,'(*(I0))') seq_q_state(1:n_res)
         write(ilog,*) "Energy file name : ",enfile
+
         do rs=1,nseq
             if (seq_q_state(rs).eq.1) then
                 par_hsq(rs,1)=0.
